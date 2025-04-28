@@ -7,13 +7,10 @@ BROADCAST_IP = '<broadcast>'
 # Port range for initial job details
 JOB_RANGE = (50000, 50025)
 
-def findGoodPort(initialPort = None):
+def findGoodPort(startPort):
+    global initialPort
 
-    #If no port, start at a random port
-    if initialPort is None:
-        initialPort = random.randint(JOB_RANGE[0], JOB_RANGE[1])
-
-    currPort = initialPort
+    currPort = startPort
     # Continue forward until a good port is found
     while True:
 
@@ -25,15 +22,19 @@ def findGoodPort(initialPort = None):
             data, addr = listen.recvfrom(1024)
             msg, nextPort = data.decode().split(':')
             print(f"{msg}")
+            initialPort = currPort + 1
             return int(nextPort)
         except socket.timeout:
             currPort += 1
             if currPort > JOB_RANGE[1]:
                 currPort = JOB_RANGE[0]
-            if currPort == initialPort:
+            if currPort == startPort:
                 print("No contracts available")
+                initialPort = currPort + 1
                 return None
             pass
+
+initialPort = random.randint(JOB_RANGE[0], JOB_RANGE[1])
 
 while True:
     # The user will be able to scan for a job or quit the program
@@ -42,7 +43,7 @@ while True:
     # If scanning
     if userInput == 's':
         # Find a port broadcasting a job
-        port = findGoodPort(random.randint(JOB_RANGE[0], JOB_RANGE[1]))
+        port = findGoodPort(initialPort)
 
         if port is None:
             continue
