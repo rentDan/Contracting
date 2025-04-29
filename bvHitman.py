@@ -2,7 +2,7 @@ import random
 import socket
 
 # Broadcast Address
-BROADCAST_IP = '<broadcast>'
+BROADCAST_IP = '255.255.255.255'
 
 # Port range for initial job details
 JOB_RANGE = (50000, 50025)

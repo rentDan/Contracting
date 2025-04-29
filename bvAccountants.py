@@ -3,7 +3,7 @@ import threading
 import random
 
 # Broadcast Address
-BROADCAST_IP = '<broadcast>'
+BROADCAST_IP = '255.255.255.255'
 
 # Port range for initial job details
 JOB_RANGE = (50000, 50025)
@@ -69,7 +69,7 @@ def handleJob(job, foundPorts):
 
     completionSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     completionSock.bind(('', foundPorts[2]))
-    completionSock.settimeout(0.2)
+    completionSock.settimeout(1)
 
     while True:
         jobSock.sendto(f"{job}:{foundPorts[1]}".encode(), (BROADCAST_IP, foundPorts[0]))
