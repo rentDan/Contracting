@@ -99,10 +99,6 @@ for job in jobs:
     foundPorts = findPorts()
     threading.Thread(target=handleJob, args=(job, foundPorts), daemon=True).start()
 
-# Handle the user input
-    # User can enter "open" to open a job
-    # or "exit" to exit a program
-
 while True:
     userInput = input("'open' a contract or 'hangup': ").lower()
 
